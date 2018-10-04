@@ -33,3 +33,5 @@ The handleConfigurationErrors will alert you of any issues related to configurat
 Successful transaction tokens of card reads will be returned via the successfulTransactionToken method of the public listener.
 
 There will be a delay in the initial connection of the reader since the EMV configuration will need to be applied to the reader's flash memory. This is a one time configuration the first time your app starts and connects to the reader.
+
+JavaDocs are supplied in the docs folder.
