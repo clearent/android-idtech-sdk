@@ -9,7 +9,7 @@ See the <a href="https://github.com/clearent/Android_IDTech_VP3300_Demo" target=
 ## How to use.
 1 - Contact Clearent for a reader and a public key.
 
-2 - Required jars are in the lib folder.
+2 - Required jars are located in the lib folder.
 
 3 - Implement the PublicOnReceiverListener interface. This is the object used to communicate with your app.
 
