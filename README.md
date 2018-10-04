@@ -28,7 +28,7 @@ See the <a href="https://github.com/clearent/Android_IDTech_VP3300_Demo" target=
 
 To start a read of a card call emv_startTransaction or device_startTransaction.
 
-The handleConfigurationErrors will tell you of any issues related to configuration. The handleCardReadResponse can be used to monitor scenarios during the read of a card. The rest of the communication can be monitored with the lcdDisplay methods of the public listener. One lcdDisplay method gets all general messages and the other is used for user interaction that can be sent back via a callback.
+The handleConfigurationErrors will alert you of any issues related to configuration. The handleCardReadResponse can be used to monitor scenarios during the read of a card. The rest of the communication can be monitored with the lcdDisplay methods of the public listener. One lcdDisplay method gets all general messages and the other is used for user interaction that can be sent back via a callback.
 
 Successful transaction tokens of card reads will be returned via the successfulTransactionToken method of the public listener.
 
