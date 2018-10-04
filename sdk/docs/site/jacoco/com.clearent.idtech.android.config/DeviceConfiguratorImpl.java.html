@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DeviceConfiguratorImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.config</a> &gt; <span class="el_source">DeviceConfiguratorImpl.java</span></div><h1>DeviceConfiguratorImpl.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.config;
+
+import com.clearent.idtech.android.Logger;
+import com.clearent.idtech.android.ReaderConfigurable;
+import com.clearent.idtech.android.domain.CommunicationRequest;
+import com.clearent.idtech.android.config.domain.ConfigurationResponse;
+import com.idtechproducts.device.Common;
+import com.idtechproducts.device.ErrorCode;
+import com.idtechproducts.device.ResDataStruct;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class DeviceConfiguratorImpl implements DeviceConfigurator {
+
+    private static final String DEFAULT_TERMINAL_TAGS = &quot;5f3601029f1a0208409f3501219f33036028c89f4005f000f0a0019f1e085465726d696e616c9f150212349f160f3030303030303030303030303030309f1c0838373635343332319f4e2231303732312057616c6b65722053742e20437970726573732c204341202c5553412edf260101df1008656e667265737a68df110100df270100dfee150101dfee160100dfee170105dfee180180dfee1e08d09c20d0c41e1400dfee1f0180dfee1b083030303130353030dfee20013cdfee21010adfee2203323c3c&quot;;
+    private ReaderConfigurable readerConfigurable;
+    private Logger logger;
+
+<span class="fc" id="L20">    public DeviceConfiguratorImpl(ReaderConfigurable readerConfigurable, Logger logger) {</span>
+<span class="fc" id="L21">        this.readerConfigurable = readerConfigurable;</span>
+<span class="fc" id="L22">        this.logger = logger;</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public void configure(CommunicationRequest communicationRequest) {
+<span class="nc" id="L27">        disableAutoPollMode();</span>
+<span class="nc" id="L28">        setTerminalMajorConfiguration();</span>
+<span class="nc" id="L29">        setDefaultTerminalTags();</span>
+<span class="nc" id="L30">        initClock();</span>
+<span class="nc" id="L31">        configureReader(communicationRequest);</span>
+<span class="nc" id="L32">    }</span>
+
+    void disableAutoPollMode() {
+<span class="nc" id="L35">        String message = null;</span>
+<span class="nc" id="L36">        int pollModeRt = readerConfigurable.device_setPollMode((byte) 0x01);  //Auto Poll Off</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (pollModeRt == ErrorCode.SUCCESS) {</span>
+<span class="nc" id="L38">            logger.d(&quot;CLEARENT&quot;,&quot;Auto Poll Disabled&quot;);</span>
+        } else {
+<span class="nc" id="L40">            String error = &quot;Auto Poll Off: Failed\n &quot;;</span>
+<span class="nc" id="L41">            readerConfigurable.notifyCommandFailure(pollModeRt, error);</span>
+        }
+<span class="nc" id="L43">    }</span>
+
+    void setDefaultTerminalTags() {
+<span class="fc" id="L46">        String upperCaseTlv = DEFAULT_TERMINAL_TAGS.toUpperCase();</span>
+<span class="fc" id="L47">        ResDataStruct resDatStruct = new ResDataStruct();</span>
+<span class="fc" id="L48">        byte[] tlvBytes = Common.getBytesFromHexString(upperCaseTlv);</span>
+<span class="fc" id="L49">        int setTerminalDataRt = readerConfigurable.emv_setTerminalData(tlvBytes,resDatStruct);</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (ErrorCode.SUCCESS == setTerminalDataRt) {</span>
+<span class="fc" id="L51">            logger.d(&quot;CLEARENT&quot;,&quot;Emv Entry mode changed from 07 to 05&quot;);</span>
+        } else{
+<span class="nc" id="L53">            String error = &quot;Reader failed to configure default terminal tags. &quot;;</span>
+<span class="nc" id="L54">            readerConfigurable.notifyCommandFailure(setTerminalDataRt, error);</span>
+        }
+<span class="fc" id="L56">    }</span>
+
+    private void configureReader(CommunicationRequest communicationRequest) {
+<span class="nc" id="L59">        GetConfigurationTaskResponseHandler getConfigurationTaskResponseHandler = new GetConfigurationTaskResponseHandler(readerConfigurable);</span>
+<span class="nc" id="L60">        fetchConfiguration(communicationRequest, getConfigurationTaskResponseHandler);</span>
+<span class="nc" id="L61">    }</span>
+
+    void fetchConfiguration(CommunicationRequest communicationRequest, final GetConfigurationTaskResponseHandler getConfigurationTaskResponseHandler) {
+<span class="nc" id="L64">        new GetConfigurationTask(communicationRequest, new GetConfigurationTask.AsyncResponse() {</span>
+            @Override
+            public void processFinish(ConfigurationResponse getConfigurationResponse) {
+<span class="nc" id="L67">                getConfigurationTaskResponseHandler.handleResponse(getConfigurationResponse);</span>
+<span class="nc" id="L68">            }</span>
+<span class="nc" id="L69">        }).execute();</span>
+<span class="nc" id="L70">    }</span>
+
+    void setTerminalMajorConfiguration() {
+<span class="fc" id="L73">        ResDataStruct resDataStruct = new ResDataStruct();</span>
+<span class="fc" id="L74">        int commandRt = readerConfigurable.device_sendDataCommand(&quot;6016&quot;, false, &quot;05&quot;, resDataStruct);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (commandRt == ErrorCode.SUCCESS) {</span>
+<span class="fc" id="L76">            String info = &quot;Terminal Major Configuration Succeeded &quot;;</span>
+<span class="fc" id="L77">            logger.d(&quot;CLEARENT&quot;, info);</span>
+<span class="fc" id="L78">        } else {</span>
+<span class="nc" id="L79">            String error = &quot;Reader failed to configure (terminal major). &quot;;</span>
+<span class="nc" id="L80">            readerConfigurable.notifyCommandFailure(commandRt, error);</span>
+        }
+<span class="fc" id="L82">    }</span>
+
+    int initClock() {
+<span class="fc" id="L85">        int dateRt = initClockDate();</span>
+<span class="fc" id="L86">        int timeRt = initClockTime();</span>
+<span class="pc bpc" id="L87" title="2 of 4 branches missed.">        if (0 == dateRt &amp;&amp; 0 == timeRt) {</span>
+<span class="fc" id="L88">            logger.d(&quot;CLEARENT&quot;, &quot;Clock Initialized&quot;);</span>
+        } else {
+<span class="nc" id="L90">            return 1;</span>
+        }
+<span class="fc" id="L92">        return 0;</span>
+    }
+
+    private int initClockDate() {
+<span class="fc" id="L96">        String clockDate = getClockDateAsYYYYMMDD();</span>
+<span class="fc" id="L97">        ResDataStruct resDataStruct = new ResDataStruct();</span>
+<span class="fc" id="L98">        return readerConfigurable.device_sendDataCommand(&quot;2503&quot;, false, clockDate, resDataStruct);</span>
+    }
+
+    private String getClockDateAsYYYYMMDD() {
+<span class="fc" id="L102">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyyMMdd&quot;);</span>
+<span class="fc" id="L103">        String date = simpleDateFormat.format(new Date());</span>
+<span class="fc" id="L104">        return date;</span>
+    }
+
+    private int initClockTime() {
+<span class="fc" id="L108">        String clockTime = getClockTimeAsHHMM();</span>
+<span class="fc" id="L109">        ResDataStruct resDataStruct = new ResDataStruct();</span>
+<span class="fc" id="L110">        return readerConfigurable.device_sendDataCommand(&quot;2501&quot;, false, clockTime, resDataStruct);</span>
+    }
+
+    private String getClockTimeAsHHMM() {
+<span class="fc" id="L114">        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;HHmm&quot;);</span>
+<span class="fc" id="L115">        String time = simpleDateFormat.format(new Date());</span>
+<span class="fc" id="L116">        return time;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

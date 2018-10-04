@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CardTokenizerImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.token.services</a> &gt; <span class="el_source">CardTokenizerImpl.java</span></div><h1>CardTokenizerImpl.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.token.services;
+
+import com.clearent.idtech.android.HasTokenizingSupport;
+import com.clearent.idtech.android.Logger;
+import com.clearent.idtech.android.domain.CommunicationRequest;
+import com.clearent.idtech.android.token.domain.EmvCardData;
+import com.clearent.idtech.android.token.domain.SwipeCardData;
+import com.clearent.idtech.android.token.domain.TransactionTokenRequest;
+
+public class CardTokenizerImpl implements CardTokenizer {
+
+    private static final String FAILED_TO_READ_CARD_ERROR_RESPONSE = &quot;Failed to read card&quot;;
+    private Logger logger;
+
+    private HasTokenizingSupport hasTokenizingSupport;
+
+<span class="nc" id="L17">    public CardTokenizerImpl(HasTokenizingSupport hasTokenizingSupport, Logger logger) {</span>
+<span class="nc" id="L18">        this.hasTokenizingSupport = hasTokenizingSupport;</span>
+<span class="nc" id="L19">        this.logger = logger;</span>
+<span class="nc" id="L20">    }</span>
+
+    @Override
+    public void createTransactionToken(SwipeCardData swipeCardData) {
+        try {
+<span class="nc" id="L25">            TransactionTokenRequest transactionTokenRequest = swipeCardData.createTransactionTokenRequest(hasTokenizingSupport, false);</span>
+<span class="nc" id="L26">            createTransactionToken(transactionTokenRequest);</span>
+<span class="nc" id="L27">        } catch (Exception e) {</span>
+<span class="nc" id="L28">            logger.e(&quot;CLEARENT&quot;, &quot;Failed to create a transaction token for a swipe&quot;, e);</span>
+<span class="nc" id="L29">            hasTokenizingSupport.notifyTransactionTokenFailure(FAILED_TO_READ_CARD_ERROR_RESPONSE);</span>
+<span class="nc" id="L30">        }</span>
+<span class="nc" id="L31">    }</span>
+
+    @Override
+    public void createTransactionTokenForFallback(SwipeCardData swipeCardData) {
+        try {
+<span class="nc" id="L36">            TransactionTokenRequest transactionTokenRequest = swipeCardData.createTransactionTokenRequest(hasTokenizingSupport, true);</span>
+<span class="nc" id="L37">            createTransactionToken(transactionTokenRequest);</span>
+<span class="nc" id="L38">        }catch (Exception e) {</span>
+<span class="nc" id="L39">            logger.e(&quot;CLEARENT&quot;, &quot;Failed to create a transaction token for a fallback swipe&quot;, e);</span>
+<span class="nc" id="L40">            hasTokenizingSupport.notifyTransactionTokenFailure(FAILED_TO_READ_CARD_ERROR_RESPONSE);</span>
+<span class="nc" id="L41">        }</span>
+<span class="nc" id="L42">    }</span>
+
+    @Override
+    public void createTransactionToken(EmvCardData emvCardData) {
+        try {
+<span class="nc" id="L47">            TransactionTokenRequest transactionTokenRequest = emvCardData.createTransactionTokenRequest(hasTokenizingSupport);</span>
+<span class="nc" id="L48">            createTransactionToken(transactionTokenRequest);</span>
+<span class="nc" id="L49">        }catch (Exception e) {</span>
+<span class="nc" id="L50">            logger.e(&quot;CLEARENT&quot;, &quot;Failed to create a transaction token for emv&quot;, e);</span>
+<span class="nc" id="L51">            hasTokenizingSupport.notifyTransactionTokenFailure(FAILED_TO_READ_CARD_ERROR_RESPONSE);</span>
+<span class="nc" id="L52">        }</span>
+<span class="nc" id="L53">    }</span>
+
+    void createTransactionToken(TransactionTokenRequest transactionTokenRequest) {
+<span class="nc bnc" id="L56" title="All 6 branches missed.">        if (transactionTokenRequest == null || transactionTokenRequest.getTrack2Data() == null || &quot;&quot;.equals(transactionTokenRequest.getTrack2Data())) {</span>
+<span class="nc" id="L57">            hasTokenizingSupport.notifyTransactionTokenFailure(FAILED_TO_READ_CARD_ERROR_RESPONSE);</span>
+<span class="nc" id="L58">            throw new RuntimeException(&quot;Track 2 data not present in transaction token request&quot;);</span>
+        }
+<span class="nc" id="L60">        String kernelVersion = hasTokenizingSupport.getKernelVersion();</span>
+<span class="nc" id="L61">        String deviceSerialNumber = hasTokenizingSupport.getDeviceSerialNumber();</span>
+<span class="nc" id="L62">        CommunicationRequest communicationRequest = new CommunicationRequest(hasTokenizingSupport.getPaymentsBaseUrl(), hasTokenizingSupport.getPaymentsPublicKey(), deviceSerialNumber, kernelVersion);</span>
+<span class="nc" id="L63">        TransactionTokenCreatorResponseHandler transactionTokenCreatorResponseHandler = new TransactionTokenCreatorResponseHandler(hasTokenizingSupport);</span>
+<span class="nc" id="L64">        TransactionTokenCreator transactionTokenCreator = new TransactionTokenCreatorImpl(communicationRequest, transactionTokenRequest);</span>
+<span class="nc" id="L65">        transactionTokenCreator.createTransactionToken(transactionTokenCreatorResponseHandler);</span>
+<span class="nc" id="L66">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

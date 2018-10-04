@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EmvCardDataImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.token.domain</a> &gt; <span class="el_source">EmvCardDataImpl.java</span></div><h1>EmvCardDataImpl.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.token.domain;
+
+import com.clearent.idtech.android.HasTokenizingSupport;
+import com.clearent.idtech.android.token.utils.EmvTags;
+import com.clearent.idtech.android.token.utils.Tlv;
+import com.idtechproducts.device.Common;
+import com.idtechproducts.device.ErrorCode;
+import com.idtechproducts.device.IDTEMVData;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class EmvCardDataImpl implements EmvCardData {
+
+    private static final String DEVICE_SERIAL_NUMBER_EMV_TAG = &quot;DF78&quot;;
+    private static final String KERNEL_VERSION_EMV_TAG = &quot;DF79&quot;;
+    private static final String EMV_TAGS_TO_RETRIEVE = &quot;82959A9B9C5F2A9F029F039F1A9F219F269F279F339F349F359F369F379F394F845F2D5F349F069F129F099F405F369F1E9F105657FF8106FF8105FFEE14FFEE06&quot;;
+    public static final String EMV_TAG_APPLICATION_PREFERRED_NAME = &quot;9F12&quot;;
+    public static final String EMV_TAG_TRACK2_DATA = &quot;57&quot;;
+    private IDTEMVData idtemvData;
+
+<span class="fc" id="L22">    public EmvCardDataImpl(IDTEMVData idtemvData) {</span>
+<span class="fc" id="L23">        this.idtemvData = idtemvData;</span>
+<span class="fc" id="L24">    }</span>
+
+    @Override
+    public SwipeCardData getMsrCardData() {
+<span class="nc" id="L28">        return new SwipeCardDataImpl(idtemvData.msr_cardData);</span>
+    }
+
+    @Override
+    public TransactionTokenRequest createTransactionTokenRequest(HasTokenizingSupport hasTokenizingSupport) {
+
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (idtemvData.unencryptedTags != null) {</span>
+<span class="fc" id="L35">            return createTransactionTokenRequest(idtemvData.unencryptedTags, false, hasTokenizingSupport);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        } else if (idtemvData.encryptedTags != null) {</span>
+<span class="nc" id="L37">            return createTransactionTokenRequest(idtemvData.encryptedTags, true, hasTokenizingSupport);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        } else if(idtemvData.msr_cardData != null) {</span>
+<span class="nc" id="L39">            return getMsrCardData().createTransactionTokenRequest(hasTokenizingSupport, true);</span>
+        }
+
+<span class="nc" id="L42">        throw new RuntimeException(&quot;Failed to identify data required for transaction token processing&quot;);</span>
+    }
+
+    TransactionTokenRequest createTransactionTokenRequest(Map&lt;String, byte[]&gt; tags, boolean encrypted, HasTokenizingSupport hasTokenizingSupport) {
+<span class="fc" id="L46">        TransactionTokenRequest transactionTokenRequest = new TransactionTokenRequest();</span>
+
+<span class="fc" id="L48">        Map&lt;String, Map&lt;String, byte[]&gt;&gt; retrievedTSYSTags = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L50">        int emvRetrieveTransactionResultRt = hasTokenizingSupport.emv_retrieveTransactionResult(Common.getByteArray(EMV_TAGS_TO_RETRIEVE), retrievedTSYSTags);</span>
+
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if (emvRetrieveTransactionResultRt == ErrorCode.SUCCESS) {</span>
+<span class="fc" id="L53">            Map&lt;String, byte[]&gt; unencryptedTags = retrievedTSYSTags.get(&quot;tags&quot;);</span>
+<span class="fc" id="L54">            Map&lt;String, byte[]&gt; encryptedTags = retrievedTSYSTags.get(&quot;encrypted&quot;);</span>
+
+<span class="fc" id="L56">            String tlvInHex = null;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if (encrypted) {</span>
+<span class="nc" id="L58">                populateTags(transactionTokenRequest, encryptedTags);</span>
+<span class="nc" id="L59">                tlvInHex = createTlvHexString(encryptedTags, hasTokenizingSupport.getDeviceSerialNumber(),hasTokenizingSupport.getKernelVersion());</span>
+            } else {
+<span class="fc" id="L61">                populateTags(transactionTokenRequest, unencryptedTags);</span>
+<span class="fc" id="L62">                tlvInHex = createTlvHexString(unencryptedTags, hasTokenizingSupport.getDeviceSerialNumber(),hasTokenizingSupport.getKernelVersion());</span>
+            }
+<span class="fc" id="L64">            transactionTokenRequest.setTlv(tlvInHex);</span>
+<span class="fc" id="L65">            transactionTokenRequest.setEmv(true);</span>
+<span class="fc" id="L66">            transactionTokenRequest.setKernelVersion(hasTokenizingSupport.getKernelVersion());</span>
+<span class="fc" id="L67">            transactionTokenRequest.setDeviceSerialNumber(hasTokenizingSupport.getDeviceSerialNumber());</span>
+<span class="fc" id="L68">            transactionTokenRequest.setFirmwareVersion(hasTokenizingSupport.getFirmwareVersion());</span>
+<span class="fc" id="L69">            transactionTokenRequest.setEncrypted(encrypted);</span>
+<span class="fc" id="L70">        } else {</span>
+<span class="nc" id="L71">            String error = &quot;Failed to get emv tags &quot;;</span>
+<span class="nc" id="L72">            hasTokenizingSupport.notifyTransactionTokenFailure(emvRetrieveTransactionResultRt, error);</span>
+<span class="nc" id="L73">            throw new RuntimeException(&quot;Failed to get emv tags&quot;);</span>
+        }
+
+<span class="fc" id="L76">        return transactionTokenRequest;</span>
+    }
+
+    private void populateTags(TransactionTokenRequest transactionTokenRequest, Map&lt;String, byte[]&gt; tags) {
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">        if(tags == null || tags.isEmpty()) {</span>
+<span class="nc" id="L81">            return;</span>
+        }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        for (Map.Entry&lt;String, byte[]&gt; entry : tags.entrySet()) {</span>
+<span class="fc" id="L84">            String tag = entry.getKey();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (tag.equals(EMV_TAG_APPLICATION_PREFERRED_NAME)) {</span>
+<span class="fc" id="L86">                String applicationPreferredName = Common.getHexStringFromBytes(entry.getValue());</span>
+<span class="fc" id="L87">                transactionTokenRequest.setApplicationPreferredNameTag9F12(applicationPreferredName);</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">            } else if (tag.equals(EMV_TAG_TRACK2_DATA)) {</span>
+<span class="fc" id="L89">                String track2Data = Common.getHexStringFromBytes(entry.getValue());</span>
+<span class="fc" id="L90">                transactionTokenRequest.setTrack2Data(track2Data);</span>
+            }
+<span class="fc" id="L92">        }</span>
+<span class="fc" id="L93">    }</span>
+
+    private String createTlvHexString(Map&lt;String, byte[]&gt; tags, String deviceSerialNumber, String kernelVersion) {
+<span class="pc bpc" id="L96" title="3 of 6 branches missed.">        if(tags == null || tags.isEmpty() || kernelVersion == null) {</span>
+<span class="nc" id="L97">            return null;</span>
+        }
+<span class="fc" id="L99">        String tlvInHex = null;</span>
+<span class="fc" id="L100">        EmvTags.removeInvalidTSYSTags(tags);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if(deviceSerialNumber != null) {</span>
+<span class="fc" id="L102">            tags.put(DEVICE_SERIAL_NUMBER_EMV_TAG, Common.getBytesFromHexString(Common.bytesToHex(deviceSerialNumber.getBytes())));</span>
+        }
+<span class="fc" id="L104">        tags.put(KERNEL_VERSION_EMV_TAG, Common.getBytesFromHexString(Common.bytesToHex(kernelVersion.getBytes())));</span>
+
+<span class="fc" id="L106">        tlvInHex = Tlv.convertToTlv(tags);</span>
+<span class="fc" id="L107">        return tlvInHex.toUpperCase();</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

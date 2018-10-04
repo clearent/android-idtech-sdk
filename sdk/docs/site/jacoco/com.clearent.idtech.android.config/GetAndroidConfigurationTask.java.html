@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GetAndroidConfigurationTask.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.config</a> &gt; <span class="el_source">GetAndroidConfigurationTask.java</span></div><h1>GetAndroidConfigurationTask.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.config;
+
+import android.os.AsyncTask;
+import android.util.Log;
+import com.clearent.idtech.android.domain.AndroidDeviceCommunicationRequest;
+import com.clearent.idtech.android.config.domain.AndroidConfigurationResponse;
+import com.google.gson.Gson;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+public class GetAndroidConfigurationTask extends AsyncTask&lt;Void, Void, AndroidConfigurationResponse&gt; {
+
+    private static final String GENERAL_ERROR = &quot;Android device configuration not found. Using defaults.&quot;;
+
+    public interface AsyncResponse {
+        void processFinish(AndroidConfigurationResponse output);
+    }
+
+    private static final String RELATIVE_PATH = &quot;/rest/v2/android/devices&quot;;
+
+    private AndroidDeviceCommunicationRequest androidDeviceCommunicationRequest;
+
+    private HttpsURLConnection httpsURLConnection;
+
+<span class="nc" id="L28">    public AsyncResponse delegate = null;</span>
+
+<span class="nc" id="L30">    public GetAndroidConfigurationTask(AndroidDeviceCommunicationRequest androidDeviceCommunicationRequest, AsyncResponse delegate) {</span>
+<span class="nc" id="L31">        this.androidDeviceCommunicationRequest = androidDeviceCommunicationRequest;</span>
+<span class="nc" id="L32">        this.delegate = delegate;</span>
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    protected AndroidConfigurationResponse doInBackground(Void... voids) {
+        try {
+<span class="nc" id="L38">            URL url = new URL(androidDeviceCommunicationRequest.getBaseUrl() + RELATIVE_PATH + &quot;/&quot; + androidDeviceCommunicationRequest.getManufacturer() + &quot;/&quot; + androidDeviceCommunicationRequest.getModel());</span>
+<span class="nc" id="L39">            httpsURLConnection = (HttpsURLConnection) url.openConnection();</span>
+<span class="nc" id="L40">            httpsURLConnection.setRequestProperty(&quot;public-key&quot;, androidDeviceCommunicationRequest.getPublicKey());</span>
+<span class="nc" id="L41">            httpsURLConnection.setRequestProperty(&quot;Accept&quot;, &quot;application/json&quot;);</span>
+<span class="nc" id="L42">            httpsURLConnection.setReadTimeout(30000);</span>
+<span class="nc" id="L43">            httpsURLConnection.setConnectTimeout(30000);</span>
+            try {
+<span class="nc" id="L45">                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream()));</span>
+<span class="nc" id="L46">                StringBuilder stringBuilder = new StringBuilder();</span>
+                String line;
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                while ((line = bufferedReader.readLine()) != null) {</span>
+<span class="nc" id="L49">                    stringBuilder.append(line).append(&quot;\n&quot;);</span>
+                }
+<span class="nc" id="L51">                bufferedReader.close();</span>
+<span class="nc" id="L52">                int httpResult = httpsURLConnection.getResponseCode();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (httpResult == 200) {</span>
+<span class="nc" id="L54">                    Gson gson = new Gson();</span>
+<span class="nc" id="L55">                    return gson.fromJson(stringBuilder.toString(), AndroidConfigurationResponse.class);</span>
+                } else {
+<span class="nc" id="L57">                    Log.d(&quot;CLEARENT&quot;,&quot;Failed to get android device.&quot;);</span>
+                }
+<span class="nc" id="L59">            } catch (Exception e) {</span>
+<span class="nc" id="L60">                Log.e(&quot;CLEARENT&quot;, GENERAL_ERROR, e);</span>
+<span class="nc" id="L61">            }</span>
+<span class="nc" id="L62">        } catch (Exception e) {</span>
+<span class="nc" id="L63">            Log.e(&quot;CLEARENT&quot;, GENERAL_ERROR,e);</span>
+        } finally {
+<span class="nc" id="L65">            httpsURLConnection.disconnect();</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        return new AndroidConfigurationResponse();</span>
+    }
+
+    @Override
+    protected void onPostExecute(AndroidConfigurationResponse response) {
+<span class="nc" id="L72">        delegate.processFinish(response);</span>
+<span class="nc" id="L73">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

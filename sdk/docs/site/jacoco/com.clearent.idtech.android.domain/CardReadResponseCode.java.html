@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CardReadResponseCode.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.domain</a> &gt; <span class="el_source">CardReadResponseCode.java</span></div><h1>CardReadResponseCode.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.domain;
+
+/**
+ * List of responses related to the user interaction with the card reader. If an error is occurring that is not on this list it might be returned
+ * in the lcdDisplay method.
+ */
+<span class="pc" id="L7">public enum CardReadResponseCode {</span>
+
+<span class="fc" id="L9">    USE_CHIP_READER(&quot;USE CHIP READER&quot;),</span>
+<span class="fc" id="L10">    USE_MAGSTRIPE(&quot;USE MAGSTRIPE&quot;),</span>
+<span class="fc" id="L11">    TERMINATE(&quot;TERMINATE&quot;),</span>
+<span class="fc" id="L12">    CONTACTLESS_NOT_SUPPORTED(&quot;Contactless not supported&quot;),</span>
+<span class="fc" id="L13">    SWIPE_CARD(&quot;Swipe card&quot;),</span>
+<span class="fc" id="L14">    REMOVE_CARD_AND_TRY_SWIPE(&quot;Remove card and try swipe&quot;),</span>
+<span class="fc" id="L15">    BAD_SWIPE(&quot;Invalid swipe&quot;),</span>
+<span class="fc" id="L16">    FALLBACK_TO_SWIPE_FAILED(&quot;Waited for the card to be removed before trying swipe. Try again (remove card when prompted).&quot;),</span>
+<span class="fc" id="L17">    DECLINED_OFFLINE(&quot;Declined Offline&quot;),</span>
+<span class="fc" id="L18">    TIMEOUT(&quot;Timeout&quot;);</span>
+
+    private String displayMessage ;
+
+<span class="fc" id="L22">    CardReadResponseCode(String displayMessage) {</span>
+<span class="fc" id="L23">        this.displayMessage = displayMessage;</span>
+<span class="fc" id="L24">    }</span>
+
+    public String getDisplayMessage() {
+<span class="nc" id="L27">        return displayMessage;</span>
+    }
+
+    public void setDisplayMessage(String displayMessage) {
+<span class="nc" id="L31">        this.displayMessage = displayMessage;</span>
+<span class="nc" id="L32">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

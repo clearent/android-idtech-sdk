@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PostTransactionTokenTask.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.token.services</a> &gt; <span class="el_source">PostTransactionTokenTask.java</span></div><h1>PostTransactionTokenTask.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.token.services;
+
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import com.clearent.idtech.android.domain.CommunicationRequest;
+import com.clearent.idtech.android.token.domain.*;
+import com.google.gson.Gson;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+
+public class PostTransactionTokenTask extends AsyncTask&lt;Void, Void, MobileJwtResponse&gt; {
+
+    public interface AsyncResponse {
+        void processFinish(MobileJwtResponse output);
+    }
+
+    private static final String RELATIVE_PATH = &quot;/rest/v2/mobilejwt&quot;;
+
+    private TransactionTokenRequest transactionTokenRequest;
+    private CommunicationRequest communicationRequest;
+    private HttpsURLConnection httpsURLConnection;
+
+<span class="nc" id="L29">    public AsyncResponse delegate = null;</span>
+
+<span class="nc" id="L31">    public PostTransactionTokenTask(CommunicationRequest communicationRequest, TransactionTokenRequest transactionTokenRequest, AsyncResponse delegate) {</span>
+<span class="nc" id="L32">        this.communicationRequest = communicationRequest;</span>
+<span class="nc" id="L33">        this.transactionTokenRequest = transactionTokenRequest;</span>
+<span class="nc" id="L34">        this.delegate = delegate;</span>
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    protected MobileJwtResponse doInBackground(Void... voids) {
+<span class="nc" id="L39">        MobileJwtResponse mobileJwtResponse = null;</span>
+        try {
+<span class="nc" id="L41">            createHttpsURLConnection();</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (transactionTokenRequest != null) {</span>
+<span class="nc" id="L43">                OutputStreamWriter writer = new OutputStreamWriter(httpsURLConnection.getOutputStream());</span>
+<span class="nc" id="L44">                Gson gson = new Gson();</span>
+<span class="nc" id="L45">                String json = gson.toJson(transactionTokenRequest);</span>
+<span class="nc" id="L46">                writer.write(json);</span>
+<span class="nc" id="L47">                writer.flush();</span>
+<span class="nc" id="L48">                int httpResult = httpsURLConnection.getResponseCode();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">                if (httpResult == 200) {</span>
+<span class="nc" id="L50">                    mobileJwtResponse = new MobileJwtResponse(getSuccessfulResponse(getResponse()));</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                } else if(httpResult == 400) {</span>
+<span class="nc" id="L52">                    mobileJwtResponse = new MobileJwtResponse(getBadResponse(getResponse()));</span>
+                }
+            }
+<span class="nc" id="L55">        } catch (Exception e) {</span>
+<span class="nc" id="L56">            Log.e(&quot;CLEARENT&quot;, &quot;Failed to call mobile jwt endpoint&quot;, e);</span>
+<span class="nc" id="L57">        }</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if(mobileJwtResponse == null) {</span>
+<span class="nc" id="L59">            mobileJwtResponse = createGenericErrorResponse();</span>
+        }
+<span class="nc" id="L61">        return mobileJwtResponse;</span>
+    }
+
+    @NonNull
+    private MobileJwtResponse createGenericErrorResponse() {
+        MobileJwtResponse mobileJwtResponse;
+<span class="nc" id="L67">        MobileJwtErrorResponse mobileJwtErrorResponse = new MobileJwtErrorResponse();</span>
+<span class="nc" id="L68">        MobileJwtErrorPayload mobileJwtErrorPayload = new MobileJwtErrorPayload();</span>
+<span class="nc" id="L69">        MobileJwtError mobileJwtError = new MobileJwtError();</span>
+<span class="nc" id="L70">        mobileJwtError.setErrorMessage(&quot;Failed to create a transaction token&quot;);</span>
+<span class="nc" id="L71">        mobileJwtErrorPayload.setMobileJwtError(mobileJwtError);</span>
+<span class="nc" id="L72">        mobileJwtErrorResponse.setMobileJwtErrorPayload(mobileJwtErrorPayload);</span>
+<span class="nc" id="L73">        mobileJwtResponse = new MobileJwtResponse(mobileJwtErrorResponse);</span>
+<span class="nc" id="L74">        return mobileJwtResponse;</span>
+    }
+
+    private String getResponse() {
+        try {
+<span class="nc" id="L79">            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream()));</span>
+<span class="nc" id="L80">            StringBuilder stringBuilder = new StringBuilder();</span>
+            String line;
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            while ((line = bufferedReader.readLine()) != null) {</span>
+<span class="nc" id="L83">                stringBuilder.append(line).append(&quot;\n&quot;);</span>
+            }
+<span class="nc" id="L85">            bufferedReader.close();</span>
+<span class="nc" id="L86">            return stringBuilder.toString();</span>
+<span class="nc" id="L87">        } catch (Exception e) {</span>
+<span class="nc" id="L88">            Log.e(&quot;CLEARENT&quot;, e.getMessage(), e);</span>
+        } finally {
+<span class="nc" id="L90">            httpsURLConnection.disconnect();</span>
+<span class="nc" id="L91">        }</span>
+<span class="nc" id="L92">        return null;</span>
+    }
+
+    MobileJwtSuccessResponse getSuccessfulResponse(String responseAsJson) {
+<span class="nc" id="L96">        MobileJwtSuccessResponse mobileJwtSuccessResponse = new MobileJwtSuccessResponse();</span>
+        try {
+<span class="nc" id="L98">            Gson gson = new Gson();</span>
+<span class="nc" id="L99">            mobileJwtSuccessResponse = gson.fromJson(responseAsJson, MobileJwtSuccessResponse.class);</span>
+<span class="nc" id="L100">        } catch (Exception e) {</span>
+<span class="nc" id="L101">            Log.e(&quot;CLEARENT&quot;, e.getMessage(), e);</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">        return mobileJwtSuccessResponse;</span>
+    }
+
+    MobileJwtErrorResponse getBadResponse(String responseAsJson) {
+<span class="nc" id="L107">        MobileJwtErrorResponse mobileJwtErrorResponse = new MobileJwtErrorResponse();</span>
+        try {
+<span class="nc" id="L109">            Gson gson = new Gson();</span>
+<span class="nc" id="L110">            mobileJwtErrorResponse = gson.fromJson(responseAsJson, MobileJwtErrorResponse.class);</span>
+<span class="nc" id="L111">        } catch (Exception e) {</span>
+<span class="nc" id="L112">            Log.e(&quot;CLEARENT&quot;, e.getMessage(), e);</span>
+<span class="nc" id="L113">        }</span>
+<span class="nc" id="L114">        return mobileJwtErrorResponse;</span>
+    }
+
+    private void createHttpsURLConnection() throws IOException {
+<span class="nc" id="L118">        URL url = new URL(communicationRequest.getBaseUrl() + RELATIVE_PATH);</span>
+<span class="nc" id="L119">        httpsURLConnection = (HttpsURLConnection) url.openConnection();</span>
+<span class="nc" id="L120">        httpsURLConnection.setDoInput(true);</span>
+<span class="nc" id="L121">        httpsURLConnection.setDoOutput(true);</span>
+<span class="nc" id="L122">        httpsURLConnection.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json&quot;);</span>
+<span class="nc" id="L123">        httpsURLConnection.setRequestMethod(&quot;POST&quot;);</span>
+<span class="nc" id="L124">        httpsURLConnection.setRequestProperty(&quot;public-key&quot;, communicationRequest.getPublicKey());</span>
+<span class="nc" id="L125">        httpsURLConnection.setRequestProperty(&quot;Accept&quot;, &quot;application/json&quot;);</span>
+<span class="nc" id="L126">    }</span>
+
+    @Override
+    protected void onPostExecute(MobileJwtResponse mobileJwtResponse) {
+<span class="nc" id="L130">        delegate.processFinish(mobileJwtResponse);</span>
+<span class="nc" id="L131">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

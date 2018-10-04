@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CaPublicKey.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.config.domain</a> &gt; <span class="el_source">CaPublicKey.java</span></div><h1>CaPublicKey.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.config.domain;
+
+
+import com.google.gson.annotations.SerializedName;
+
+<span class="nc" id="L6">public class CaPublicKey {</span>
+
+    @SerializedName(&quot;name&quot;)
+    private String name;
+
+    @SerializedName(&quot;rid&quot;)
+    private String rid;
+
+    @SerializedName(&quot;key-index&quot;)
+    private String keyIndex;
+
+    @SerializedName(&quot;hash-algorithm&quot;)
+    private String hashAlgorithm;
+
+    @SerializedName(&quot;encryption-algorithm&quot;)
+    private String encryptionAlgorithm;
+
+    @SerializedName(&quot;hash-value&quot;)
+    private String hashValue;
+
+    @SerializedName(&quot;key-exponent&quot;)
+    private String keyExponent;
+
+    @SerializedName(&quot;modulus&quot;)
+    private String modulus;
+
+    @SerializedName(&quot;big-endian-modulus-length&quot;)
+    private String bigEndianModulusLength;
+
+
+    public String getName() {
+<span class="nc" id="L37">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L41">        this.name = name;</span>
+<span class="nc" id="L42">    }</span>
+
+    public String getRid() {
+<span class="nc" id="L45">        return rid;</span>
+    }
+
+    public void setRid(String rid) {
+<span class="nc" id="L49">        this.rid = rid;</span>
+<span class="nc" id="L50">    }</span>
+
+    public String getKeyIndex() {
+<span class="nc" id="L53">        return keyIndex;</span>
+    }
+
+    public void setKeyIndex(String keyIndex) {
+<span class="nc" id="L57">        this.keyIndex = keyIndex;</span>
+<span class="nc" id="L58">    }</span>
+
+    public String getHashAlgorithm() {
+<span class="nc" id="L61">        return hashAlgorithm;</span>
+    }
+
+    public void setHashAlgorithm(String hashAlgorithm) {
+<span class="nc" id="L65">        this.hashAlgorithm = hashAlgorithm;</span>
+<span class="nc" id="L66">    }</span>
+
+    public String getEncryptionAlgorithm() {
+<span class="nc" id="L69">        return encryptionAlgorithm;</span>
+    }
+
+    public void setEncryptionAlgorithm(String encryptionAlgorithm) {
+<span class="nc" id="L73">        this.encryptionAlgorithm = encryptionAlgorithm;</span>
+<span class="nc" id="L74">    }</span>
+
+    public String getHashValue() {
+<span class="nc" id="L77">        return hashValue;</span>
+    }
+
+    public void setHashValue(String hashValue) {
+<span class="nc" id="L81">        this.hashValue = hashValue;</span>
+<span class="nc" id="L82">    }</span>
+
+    public String getKeyExponent() {
+<span class="nc" id="L85">        return keyExponent;</span>
+    }
+
+    public void setKeyExponent(String keyExponent) {
+<span class="nc" id="L89">        this.keyExponent = keyExponent;</span>
+<span class="nc" id="L90">    }</span>
+
+    public String getModulus() {
+<span class="nc" id="L93">        return modulus;</span>
+    }
+
+    public void setModulus(String modulus) {
+<span class="nc" id="L97">        this.modulus = modulus;</span>
+<span class="nc" id="L98">    }</span>
+
+    public String getBigEndianModulusLength() {
+<span class="nc" id="L101">        return bigEndianModulusLength;</span>
+    }
+
+    public void setBigEndianModulusLength(String bigEndianModulusLength) {
+<span class="nc" id="L105">        this.bigEndianModulusLength = bigEndianModulusLength;</span>
+<span class="nc" id="L106">    }</span>
+
+    public String getOrderedValues() {
+<span class="nc" id="L109">        return rid + keyIndex + hashAlgorithm + encryptionAlgorithm + hashValue + keyExponent + bigEndianModulusLength + modulus;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

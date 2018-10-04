@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SwipeCardDataImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.token.domain</a> &gt; <span class="el_source">SwipeCardDataImpl.java</span></div><h1>SwipeCardDataImpl.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.token.domain;
+
+import com.clearent.idtech.android.HasDeviceMetadata;
+import com.clearent.idtech.android.token.utils.Tlv;
+import com.idtechproducts.device.Common;
+import com.idtechproducts.device.IDTMSRData;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SwipeCardDataImpl implements SwipeCardData {
+
+    private static final String DEVICE_SERIAL_NUMBER_EMV_TAG = &quot;DF78&quot;;
+    private static final String KERNEL_VERSION_EMV_TAG = &quot;DF79&quot;;
+
+    private IDTMSRData idtmsrData;
+
+<span class="fc" id="L18">    public SwipeCardDataImpl(IDTMSRData idtmsrData) {</span>
+<span class="fc" id="L19">        this.idtmsrData = idtmsrData;</span>
+<span class="fc" id="L20">    }</span>
+
+    @Override
+    public TransactionTokenRequest createTransactionTokenRequest(HasDeviceMetadata hasDeviceMetadata, boolean isFallback) {
+<span class="fc" id="L24">        TransactionTokenRequest transactionTokenRequest = new TransactionTokenRequest();</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (idtmsrData.encTrack2 != null) {</span>
+<span class="nc" id="L26">            String encryptedTrack2Data = Common.byteToString(idtmsrData.encTrack2);</span>
+<span class="nc" id="L27">            transactionTokenRequest.setEmv(false);</span>
+<span class="nc" id="L28">            transactionTokenRequest.setEncrypted(true);</span>
+<span class="nc" id="L29">            transactionTokenRequest.setTrack2Data(encryptedTrack2Data.toUpperCase());</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        } else if (idtmsrData.track2 != null) {</span>
+<span class="fc" id="L31">            transactionTokenRequest.setEmv(false);</span>
+<span class="fc" id="L32">            transactionTokenRequest.setEncrypted(false);</span>
+<span class="fc" id="L33">            transactionTokenRequest.setTrack2Data(idtmsrData.track2.toUpperCase());</span>
+        }
+<span class="fc" id="L35">        transactionTokenRequest.setKernelVersion(hasDeviceMetadata.getKernelVersion());</span>
+<span class="fc" id="L36">        transactionTokenRequest.setDeviceSerialNumber(hasDeviceMetadata.getDeviceSerialNumber());</span>
+<span class="fc" id="L37">        transactionTokenRequest.setFirmwareVersion(hasDeviceMetadata.getFirmwareVersion());</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if(isFallback) {</span>
+<span class="fc" id="L39">            Map&lt;String, byte[]&gt; requiredTags = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L40">            requiredTags.put(DEVICE_SERIAL_NUMBER_EMV_TAG, Common.getBytesFromHexString(Common.bytesToHex(hasDeviceMetadata.getDeviceSerialNumber().getBytes())));</span>
+<span class="fc" id="L41">            requiredTags.put(KERNEL_VERSION_EMV_TAG, Common.getBytesFromHexString(Common.bytesToHex(hasDeviceMetadata.getKernelVersion().getBytes())));</span>
+<span class="fc" id="L42">            transactionTokenRequest.setTlv(Tlv.convertToTlv(requiredTags));</span>
+        }
+<span class="fc" id="L44">        return transactionTokenRequest;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

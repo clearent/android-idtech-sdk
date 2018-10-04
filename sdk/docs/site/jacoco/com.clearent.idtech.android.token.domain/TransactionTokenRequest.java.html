@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TransactionTokenRequest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.token.domain</a> &gt; <span class="el_source">TransactionTokenRequest.java</span></div><h1>TransactionTokenRequest.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.token.domain;
+
+
+import com.google.gson.annotations.SerializedName;
+
+public class TransactionTokenRequest {
+
+    @SerializedName(&quot;tlv&quot;)
+    private String tlv;
+
+    @SerializedName(&quot;tlv-encrypted&quot;)
+    private boolean encrypted;
+
+    @SerializedName(&quot;emv&quot;)
+    private boolean emv;
+
+    @SerializedName(&quot;firmware-version&quot;)
+    private String firmwareVersion;
+
+    @SerializedName(&quot;device-serial-number&quot;)
+    private String deviceSerialNumber;
+
+    @SerializedName(&quot;kernel-version&quot;)
+    private String kernelVersion;
+
+    @SerializedName(&quot;track2-data&quot;)
+    private String track2Data;
+
+    @SerializedName(&quot;application-preferred-name-tag-9f12&quot;)
+    private String applicationPreferredNameTag9F12;
+
+<span class="fc" id="L32">    @SerializedName(&quot;device-format&quot;)</span>
+    private String deviceFormat = &quot;IDTECH&quot;;
+
+<span class="fc" id="L35">    public TransactionTokenRequest() {</span>
+
+<span class="fc" id="L37">    }</span>
+
+    public String getTlv() {
+<span class="fc" id="L40">        return tlv;</span>
+    }
+
+    public void setTlv(String tlv) {
+<span class="fc" id="L44">        this.tlv = tlv;</span>
+<span class="fc" id="L45">    }</span>
+
+    public boolean isEncrypted() {
+<span class="fc" id="L48">        return encrypted;</span>
+    }
+
+    public void setEncrypted(boolean encrypted) {
+<span class="fc" id="L52">        this.encrypted = encrypted;</span>
+<span class="fc" id="L53">    }</span>
+
+    public boolean isEmv() {
+<span class="fc" id="L56">        return emv;</span>
+    }
+
+    public void setEmv(boolean emv) {
+<span class="fc" id="L60">        this.emv = emv;</span>
+<span class="fc" id="L61">    }</span>
+
+    public String getFirmwareVersion() {
+<span class="fc" id="L64">        return firmwareVersion;</span>
+    }
+
+    public void setFirmwareVersion(String firmwareVersion) {
+<span class="fc" id="L68">        this.firmwareVersion = firmwareVersion;</span>
+<span class="fc" id="L69">    }</span>
+
+    public String getDeviceSerialNumber() {
+<span class="fc" id="L72">        return deviceSerialNumber;</span>
+    }
+
+    public void setDeviceSerialNumber(String deviceSerialNumber) {
+<span class="fc" id="L76">        this.deviceSerialNumber = deviceSerialNumber;</span>
+<span class="fc" id="L77">    }</span>
+
+    public String getKernelVersion() {
+<span class="fc" id="L80">        return kernelVersion;</span>
+    }
+
+    public void setKernelVersion(String kernelVersion) {
+<span class="fc" id="L84">        this.kernelVersion = kernelVersion;</span>
+<span class="fc" id="L85">    }</span>
+
+    public String getTrack2Data() {
+<span class="fc" id="L88">        return track2Data;</span>
+    }
+
+    public void setTrack2Data(String track2Data) {
+<span class="fc" id="L92">        this.track2Data = track2Data;</span>
+<span class="fc" id="L93">    }</span>
+
+    public String getApplicationPreferredNameTag9F12() {
+<span class="fc" id="L96">        return applicationPreferredNameTag9F12;</span>
+    }
+
+    public void setApplicationPreferredNameTag9F12(String applicationPreferredNameTag9F12) {
+<span class="fc" id="L100">        this.applicationPreferredNameTag9F12 = applicationPreferredNameTag9F12;</span>
+<span class="fc" id="L101">    }</span>
+
+    public String getDeviceFormat() {
+<span class="fc" id="L104">        return deviceFormat;</span>
+    }
+
+    public void setDeviceFormat(String deviceFormat) {
+<span class="nc" id="L108">        this.deviceFormat = deviceFormat;</span>
+<span class="nc" id="L109">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DeviceFactory.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.family</a> &gt; <span class="el_source">DeviceFactory.java</span></div><h1>DeviceFactory.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.family;
+
+
+import com.clearent.idtech.android.family.device.VP3300;
+import com.clearent.idtech.android.family.device.VP3300Impl;
+
+/**
+ * Use this factory to get an object to use for your device.
+ */
+<span class="nc" id="L10">public class DeviceFactory {</span>
+
+    /**
+     * getVP3300 Use this method to get a VP3300 object for interacting with the VivoPay series. Devices support audio jack, audio jack + usb, usb only, and bluetooth.
+     *
+     * @param applicationContext provide context from your application in order to communicate with the device.
+     * @return VP3300 Object
+     */
+    public static VP3300 getVP3300(ApplicationContext applicationContext) {
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        switch (applicationContext.getDeviceType()) {</span>
+            case DEVICE_VP3300_AJ:
+            case DEVICE_VP3300_AJ_USB:
+            case DEVICE_VP3300_USB:
+            case DEVICE_VP3300_BT:
+<span class="nc" id="L24">                VP3300 vP3300 = new VP3300Impl(applicationContext);</span>
+<span class="nc" id="L25">                return vP3300;</span>
+            default:
+<span class="nc" id="L27">                throw new RuntimeException(&quot;No VP3300 device found&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

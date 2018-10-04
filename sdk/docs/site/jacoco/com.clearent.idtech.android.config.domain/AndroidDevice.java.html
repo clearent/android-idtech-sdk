@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AndroidDevice.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">clearent-idtech-android</a> &gt; <a href="index.source.html" class="el_package">com.clearent.idtech.android.config.domain</a> &gt; <span class="el_source">AndroidDevice.java</span></div><h1>AndroidDevice.java</h1><pre class="source lang-java linenums">package com.clearent.idtech.android.config.domain;
+
+import com.google.gson.annotations.SerializedName;
+
+public class AndroidDevice {
+
+    @SerializedName(&quot;support-statuses&quot;)
+    String supportStatuses;
+
+    @SerializedName(&quot;baud-rate&quot;)
+    Integer baudRate;
+
+    @SerializedName(&quot;input-frequency&quot;)
+    Integer inputFrequency;
+
+    @SerializedName(&quot;output-frequency&quot;)
+    Integer outputFrequency;
+
+    @SerializedName(&quot;record-buffer-size&quot;)
+    Integer recordBufferSize;
+
+    @SerializedName(&quot;record-read-buffer-size&quot;)
+    Integer recordReadBufferSize;
+
+    @SerializedName(&quot;volume-adjust&quot;)
+    Integer volumeAdjust;
+
+    @SerializedName(&quot;direct-output-wave&quot;)
+    Integer directOutputWave;
+
+    @SerializedName(&quot;use-voice-recognition&quot;)
+    Integer useVoiceRecognition;
+
+    @SerializedName(&quot;shuttle-channel&quot;)
+    Integer shuttleChannel;
+
+    @SerializedName(&quot;powerup-when-swipe&quot;)
+    Integer powerupWhenSwipe;
+
+    @SerializedName(&quot;powerup-last-before-command&quot;)
+    Integer powerupLastBeforeCmd;
+
+    @SerializedName(&quot;force-headset&quot;)
+    Integer forceHeadset;
+
+    @SerializedName(&quot;reverse-audio-events&quot;)
+    Integer reverseAudioEvents;
+
+<span class="fc" id="L49">    public AndroidDevice() {</span>
+<span class="fc" id="L50">    }</span>
+
+    public String getSupportStatuses() {
+<span class="fc" id="L53">        return supportStatuses;</span>
+    }
+
+    public void setSupportStatuses(String supportStatuses) {
+<span class="fc" id="L57">        this.supportStatuses = supportStatuses;</span>
+<span class="fc" id="L58">    }</span>
+
+    public Integer getBaudRate() {
+<span class="fc" id="L61">        return baudRate;</span>
+    }
+
+    public void setBaudRate(Integer baudRate) {
+<span class="fc" id="L65">        this.baudRate = baudRate;</span>
+<span class="fc" id="L66">    }</span>
+
+    public Integer getInputFrequency() {
+<span class="fc" id="L69">        return inputFrequency;</span>
+    }
+
+    public void setInputFrequency(Integer inputFrequency) {
+<span class="fc" id="L73">        this.inputFrequency = inputFrequency;</span>
+<span class="fc" id="L74">    }</span>
+
+    public Integer getOutputFrequency() {
+<span class="fc" id="L77">        return outputFrequency;</span>
+    }
+
+    public void setOutputFrequency(Integer outputFrequency) {
+<span class="fc" id="L81">        this.outputFrequency = outputFrequency;</span>
+<span class="fc" id="L82">    }</span>
+
+    public Integer getRecordBufferSize() {
+<span class="fc" id="L85">        return recordBufferSize;</span>
+    }
+
+    public void setRecordBufferSize(Integer recordBufferSize) {
+<span class="fc" id="L89">        this.recordBufferSize = recordBufferSize;</span>
+<span class="fc" id="L90">    }</span>
+
+    public Integer getRecordReadBufferSize() {
+<span class="fc" id="L93">        return recordReadBufferSize;</span>
+    }
+
+    public void setRecordReadBufferSize(Integer recordReadBufferSize) {
+<span class="fc" id="L97">        this.recordReadBufferSize = recordReadBufferSize;</span>
+<span class="fc" id="L98">    }</span>
+
+    public Integer getVolumeAdjust() {
+<span class="fc" id="L101">        return volumeAdjust;</span>
+    }
+
+    public void setVolumeAdjust(Integer volumeAdjust) {
+<span class="fc" id="L105">        this.volumeAdjust = volumeAdjust;</span>
+<span class="fc" id="L106">    }</span>
+
+    public Integer getDirectOutputWave() {
+<span class="fc" id="L109">        return directOutputWave;</span>
+    }
+
+    public void setDirectOutputWave(Integer directOutputWave) {
+<span class="fc" id="L113">        this.directOutputWave = directOutputWave;</span>
+<span class="fc" id="L114">    }</span>
+
+    public Integer getUseVoiceRecognition() {
+<span class="fc" id="L117">        return useVoiceRecognition;</span>
+    }
+
+    public void setUseVoiceRecognition(Integer useVoiceRecognition) {
+<span class="fc" id="L121">        this.useVoiceRecognition = useVoiceRecognition;</span>
+<span class="fc" id="L122">    }</span>
+
+    public Integer getShuttleChannel() {
+<span class="fc" id="L125">        return shuttleChannel;</span>
+    }
+
+    public void setShuttleChannel(Integer shuttleChannel) {
+<span class="fc" id="L129">        this.shuttleChannel = shuttleChannel;</span>
+<span class="fc" id="L130">    }</span>
+
+    public Integer getPowerupWhenSwipe() {
+<span class="fc" id="L133">        return powerupWhenSwipe;</span>
+    }
+
+    public void setPowerupWhenSwipe(Integer powerupWhenSwipe) {
+<span class="fc" id="L137">        this.powerupWhenSwipe = powerupWhenSwipe;</span>
+<span class="fc" id="L138">    }</span>
+
+    public Integer getPowerupLastBeforeCmd() {
+<span class="fc" id="L141">        return powerupLastBeforeCmd;</span>
+    }
+
+    public void setPowerupLastBeforeCmd(Integer powerupLastBeforeCmd) {
+<span class="fc" id="L145">        this.powerupLastBeforeCmd = powerupLastBeforeCmd;</span>
+<span class="fc" id="L146">    }</span>
+
+    public Integer getForceHeadset() {
+<span class="fc" id="L149">        return forceHeadset;</span>
+    }
+
+    public void setForceHeadset(Integer forceHeadset) {
+<span class="fc" id="L153">        this.forceHeadset = forceHeadset;</span>
+<span class="fc" id="L154">    }</span>
+
+    public Integer getReverseAudioEvents() {
+<span class="fc" id="L157">        return reverseAudioEvents;</span>
+    }
+
+    public void setReverseAudioEvents(Integer reverseAudioEvents) {
+<span class="fc" id="L161">        this.reverseAudioEvents = reverseAudioEvents;</span>
+<span class="fc" id="L162">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
