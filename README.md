@@ -8,10 +8,15 @@ See the <a href="https://github.com/clearent/Android_IDTech_VP3300_Demo" target=
 
 ## How to use.
 1 - Contact Clearent for a reader and a public key.
+
 2 - Required jars are in the lib folder.
+
 3 - Implement the PublicOnReceiverListener interface. This is the object used to communicate with your app.
+
 4 - Implement the ApplicationContext interface.
+
 5 - Use the DeviceFactory to get an object based on the device you have.
+
 6 - Call the device_configurePeripheralAndConnect() method.
 
   This is a convenience method that will call the Clearent's system to get a configuration based on the android device you are using. There are peripheral specifications, such as the baud rate on the audio jack, that can be different per device. If Clearent does not have a configuration to use there is an xml file you can provide as a fallback based on an IDTech format. Supply the file location for this via the ApplicationContext.
