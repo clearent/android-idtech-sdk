@@ -15,7 +15,7 @@ See the <a href="https://github.com/clearent/Android_IDTech_VP3300_Demo" target=
 
 4 - Implement the ApplicationContext interface.
 
-5 - Use the DeviceFactory to get an object based on the device you have.
+5 - Use the DeviceFactory to get an object based on the device you have. This object will be used by your app to interact with the reader.
 
 6 - Call the device_configurePeripheralAndConnect() method.
 
@@ -26,9 +26,9 @@ See the <a href="https://github.com/clearent/Android_IDTech_VP3300_Demo" target=
 
 *Do not enable usage of reader until the isReady() method of the public listener is called.
 
-To start a read of a card call emv_startTransaction or device_startTransaction.
+To initiate the processing of a card call device_startTransaction.
 
-The handleConfigurationErrors will alert you of any issues related to configuration. The handleCardReadResponse can be used to monitor scenarios during the read of a card. The rest of the communication can be monitored with the lcdDisplay methods of the public listener. One lcdDisplay method gets all general messages and the other is used for user interaction that can be sent back via a callback.
+The handleConfigurationErrors method will alert you of any issues related to configuration. The handleCardProcessingResponse method can be used to monitor issues during the processing of the card. The rest of the communication can be monitored with the lcdDisplay methods of the public listener. One lcdDisplay method gets all general messages and the other is used for user interaction that can be sent back via a callback.
 
 Successful transaction tokens of card reads will be returned via the successfulTransactionToken method of the public listener.
 
