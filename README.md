@@ -1,7 +1,5 @@
 # android-idtech-sdk
 
-For Android version 8. 
-
 The sdk contains everything needed to add android support to your app for interaction with an IDTech card reader that processes payments using Clearent's payment processing system. The Clearent solution wraps IDTech's solution and handles the processing of the credit card data for you. Instead of handling the credit card data, a transaction token will be sent back to you via the public listener, allowing you to present this token back to Clearent when running a payment transaction (using the /rest/v2/mobile/transactions endpoint).
 
 The reader will be shipped to you with IDTech's default EMV configuration. Clearent has an EMV configuration based on an industry certification process that needs to be applied. When the reader is connected a call will be made to Clearent's system to retrieve the EMV configuration and apply it to the reader.
@@ -37,3 +35,33 @@ Successful transaction tokens of card reads will be returned via the successfulT
 There will be a delay in the initial connection of the reader since the EMV configuration will need to be applied to the reader's flash memory. This is a one time configuration the first time your app starts and connects to the reader.
 
 JavaDocs are supplied in the docs folder.
+
+## Creating a transaction token to represent a manually entered card.
+
+In the libs folder is a newer version of the clearent idtech android jar - sdk/lib/clearent-idtech-android-2.0.20181015095526.jar (do not use older jar). Support has been added so you can manually enter a card and have it stored using our 'mobile jwt' solution.
+
+The demo has an example:
+
+1 - Create an object that implements the ManualEntry interface.
+
+2 - Implement interface HasManualTokenizingSupport. The following methods are now in place:
+
+//Returns a successful transaction token
+
+void successfulTransactionToken(TransactionToken var1);
+
+//Handle errors related to the card.
+
+void handleCardProcessingResponse(CardProcessingResponse var1);
+
+//Handle errors related to the manual entry request.
+
+void handleManualEntryError(String var1);
+
+3 - Create an ManualCardTokenizer object.
+
+manualCardTokenizer = new ManualCardTokenizerImpl(this);
+
+4 - Call the createTransactionToken method with your card object.
+
+ manualCardTokenizer.createTransactionToken(manualEntry);
