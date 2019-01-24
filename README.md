@@ -38,7 +38,7 @@ JavaDocs are supplied in the docs folder.
 
 ## Creating a transaction token to represent a manually entered card.
 
-In the libs folder is a newer version of the clearent idtech android jar - sdk/lib/clearent-idtech-android-2.0.20181015095526.jar (do not use older jar). Support has been added so you can manually enter a card and have it stored using our 'mobile jwt' solution.
+In the libs folder is a newer version of the clearent idtech android jar - clearent-idtech-android-2.0.20190122192757.jar. Support has been added so you can manually enter a card and have it stored using our 'mobile jwt' solution.
 
 The demo has an example:
 
@@ -48,15 +48,15 @@ The demo has an example:
 
 //Returns a successful transaction token
 
-void successfulTransactionToken(TransactionToken var1);
+void successfulTransactionToken(TransactionToken transactionToken);
 
 //Handle errors related to the card.
 
-void handleCardProcessingResponse(CardProcessingResponse var1);
+void handleCardProcessingResponse(CardProcessingResponse cardProcessingResponse);
 
 //Handle errors related to the manual entry request.
 
-void handleManualEntryError(String var1);
+void handleManualEntryError(String message);
 
 3 - Create an ManualCardTokenizer object.
 
