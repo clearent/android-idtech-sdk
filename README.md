@@ -38,7 +38,16 @@ JavaDocs are supplied in the docs folder.
 
 ## Creating a transaction token to represent a manually entered card.
 
-In the libs folder is a newer version of the clearent idtech android jar - clearent-idtech-android-2.0.20190122192757.jar. Support has been added so you can manually enter a card and have it stored using our 'mobile jwt' solution.
+In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-105-1.0.8.jar which replaces clearent-idtech-android-105-1.0.5.jar.
+
+Release Highlights
+
+clearent-idtech-android-2.0.20190122192757.jar (deprecated). Support has been added so you can manually enter a card and have it stored using our 'mobile jwt' solution. (Idtech recommended moving to 105)
+
+clearent-idtech-android-105-1.0.5.jar - upgraded to support the IDTech Universal SDK 105 jar (in libs). Caches a flag when the reader is configured speeding up future connections. Added retry logic during communication issues with the reader to get the configuration to apply more consistently.
+
+clearent-idtech-android-105-1.0.8.jar - fixed an issue when swapping back and forth between readers when the auto configuration has been disabled and the applyClearentConfiguration was called at a later time. Expose the verbose logging method for support.
+Exposed firmware upgrade methods. New performance change was added so when the framework identifies when the configuration has been applied it will use a SharedPreference to store this, allowing the app to be shutdown and brought back up with this knowledge still retained. So, first time reader connections will take the hit on the reader configuration and every time thereafter should be faster.
 
 The demo has an example:
 
