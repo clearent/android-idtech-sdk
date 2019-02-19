@@ -49,6 +49,10 @@ clearent-idtech-android-105-1.0.5.jar - upgraded to support the IDTech Universal
 clearent-idtech-android-105-1.0.8.jar - fixed an issue when swapping back and forth between readers when the auto configuration has been disabled and the applyClearentConfiguration was called at a later time. Expose the verbose logging method for support.
 Exposed firmware upgrade methods. New performance change was added so when the framework identifies when the configuration has been applied it will use a SharedPreference to store this, allowing the app to be shutdown and brought back up with this knowledge still retained. So, first time reader connections will take the hit on the reader configuration and every time thereafter should be faster.
 
+clearent-idtech-android-105-1.0.9.jar - fixed an issue when you swipe a chip card. When this happens we want to force the user to try the chip. An error is returned (terminating the transaction) called 'USE CHIP READER'. You need to initiate a new transaction and attemp a dip card. If this fails you will then have an opportunity to perform a fallback swipe. This jar does not support contactless. You will get an error when attempting to use a contactless card. To get around this with a card that also has a chip, you need to first insert the card, then initiate the transaction.
+
+
+
 The demo has an example:
 
 1 - Create an object that implements the ManualEntry interface.
