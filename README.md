@@ -81,3 +81,12 @@ manualCardTokenizer = new ManualCardTokenizerImpl(this);
 4 - Call the createTransactionToken method with your card object.
 
  manualCardTokenizer.createTransactionToken(manualEntry);
+
+
+ ## Disabling emv configuration when using a preconfigured reader
+
+By default Clearent will apply an emv configuration to your device. This configuration was determined by going through a certification process. The configuration can also be applied before the device is shipped to you. When this happens, you should disable the configuration feature. To do this, return true when you implement the ApplicationContext interface method disableAutoConfiguration().
+
+## User experience when emv configuration is being applied.
+
+When the Clearent framework applies the emv configuration to the reader it is using IDTech's framework for communication. This process can take up to a couple of minutes and also has its own unique failures that need to be managed (with possible retry logic). The Clearent framework has some retry capability to account for these failures (example bluetooth connectivity) but only attempts a limited number of times. It's up to the client app to account for this initial user experience. Once the reader has been configured the device serial number is cached so the framework knows not to configure again. If you want to avoid hitting this one time delay during a transaction flow you can advise the merchant to perform an initial connection with the reader, maybe at the time they pull the reader out of the box or some time prior to running transactions.
