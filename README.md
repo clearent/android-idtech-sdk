@@ -38,7 +38,7 @@ JavaDocs are supplied in the docs folder.
 
 ## Creating a transaction token to represent a manually entered card.
 
-In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-105-1.0.23.jar which replaces clearent-idtech-android-105-1.0.21.jar.
+In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-109-1.0.23.jar which replaces clearent-idtech-android-105-1.0.21.jar.
 
 Release Highlights
 
