@@ -53,7 +53,7 @@ clearent-idtech-android-105-1.0.9.jar - fixed an issue when you swipe a chip car
 
 clearent-idtech-android-105-1.0.21.jar - Fixed an issue with cleaning up resources after performing a rest call (HTTP connection). Fixed an issue with identifying when a reader has been previously configured.  
 
-clearent-idtech-android-105-1.0.23.jar - When the idtech framework tells the clearent framework it has connected, and the clearent framework attempts to get the device serial number, sometimes it fails with a Command Not Allowed error. When this happens the Clearent framework will just proceed with a default device serial number of 9999999999, allowing the integrated app to continue processing. Added remote logging to clearent's backend.
+clearent-idtech-android-109-1.0.23.jar - When the idtech framework tells the clearent framework it has connected, and the clearent framework attempts to get the device serial number, sometimes it fails with a Command Not Allowed error. When this happens the Clearent framework will just proceed with a default device serial number of 9999999999, allowing the integrated app to continue processing. Added remote logging to clearent's backend.
 
 
 The demo has an example:
