@@ -38,7 +38,7 @@ JavaDocs are supplied in the docs folder.
 
 ## Creating a transaction token to represent a manually entered card.
 
-In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-109-1.0.23.jar which replaces clearent-idtech-android-105-1.0.21.jar.
+In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-109-1.0.24.jar which replaces clearent-idtech-android-105-1.0.23.jar.
 
 Release Highlights
 
@@ -54,6 +54,8 @@ clearent-idtech-android-105-1.0.9.jar - fixed an issue when you swipe a chip car
 clearent-idtech-android-105-1.0.21.jar - Fixed an issue with cleaning up resources after performing a rest call (HTTP connection). Fixed an issue with identifying when a reader has been previously configured.  
 
 clearent-idtech-android-109-1.0.23.jar - When the idtech framework tells the clearent framework it has connected, and the clearent framework attempts to get the device serial number, sometimes it fails with a Command Not Allowed error. When this happens the Clearent framework will just proceed with a default device serial number of 9999999999, allowing the integrated app to continue processing. Added remote logging to clearent's backend.
+
+clearent-idtech-android-109-1.0.24.jar - http resources were not being cleaned up correctly when returning from the call to clearent to get a transaction token.
 
 
 The demo has an example:
