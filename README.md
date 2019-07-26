@@ -38,7 +38,7 @@ JavaDocs are supplied in the docs folder.
 
 ## Creating a transaction token to represent a manually entered card.
 
-In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-109-1.0.24.jar which replaces clearent-idtech-android-105-1.0.23.jar.
+In the libs folder is a newer version of the clearent idtech android jar, clearent-idtech-android-116-1.0.00.jar which replaces clearent-idtech-android-109-1.0.24.jar.
 
 Release Highlights
 
@@ -56,6 +56,8 @@ clearent-idtech-android-105-1.0.21.jar - Fixed an issue with cleaning up resourc
 clearent-idtech-android-109-1.0.23.jar - When the idtech framework tells the clearent framework it has connected, and the clearent framework attempts to get the device serial number, sometimes it fails with a Command Not Allowed error. When this happens the Clearent framework will just proceed with a default device serial number of 9999999999, allowing the integrated app to continue processing. Added remote logging to clearent's backend.
 
 clearent-idtech-android-109-1.0.24.jar - http resources were not being cleaned up correctly when returning from the call to clearent to get a transaction token.
+
+clearent-idtech-android-116-1.0.0.jar - Added methods for registerListen and device_startTransaction allowing you to pass in the number of retries and the length of time to wait before retrying the connectivity to bluetooth reader. The no arg registerListen and the current device_startTransaction have a default retry ability of up to 4 times, waiting 500 milliseconds between attempts, Also upgraded to IDTech's latest solution, Universal_SDK_1.00.116.jar. Updated the demo in the scanupgrade branch (haven't merged to master just yet). 
 
 
 The demo has an example:
