@@ -21,10 +21,11 @@ clearent-idtech-android-116-1.0.0.jar - Added methods for registerListen and dev
 
 clearent-idtech-android-126-1.0.0-beta.jar
 
-:warning: This release has only passed contactless testing on VP3300 bluetooth encrypted and unencrypted readers using idtech firmware version .151. We are still testing the audio jack readers to confirm IDTech's firmware version works with this release.
+:warning: This release has only passed contactless testing on VP3300 bluetooth encrypted and unencrypted readers using idtech firmware version .151. We are still testing the audio jack readers to confirm IDTech's firmware version works with this release for contactless.
 If you plan on upgrading to use with the audio jack readers you should keep contactless disabled.
 
-* handles encrypted readers.
+* handles encrypted bluetooth and audio jack readers. This release will work with encrypted audio jack readers on firmware version .064
+for DIP and SWIPES only (no contactless).
 
 * Added emv contactless reader support. MSD contactless was not a part of certification and is not supported. EMV Contactless Cards (with the network symbol) and cards in an Apple Wallet should work.
 
