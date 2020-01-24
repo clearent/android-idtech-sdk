@@ -1,0 +1,26 @@
+-classpath
+'/Users/davidhigginbotham/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/Users/davidhigginbotham/.m2/repository/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar:/Users/davidhigginbotham/.m2/repository/org/khronos/opengl-api/gl1.1-android-2.1_r1/opengl-api-gl1.1-android-2.1_r1.jar:/Users/davidhigginbotham/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/davidhigginbotham/.m2/repository/com/android/support/support-v4/22.2.1/support-v4-22.2.1.jar:/Users/davidhigginbotham/.m2/repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar:/Users/davidhigginbotham/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar:/Users/davidhigginbotham/.m2/repository/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar:/Users/davidhigginbotham/.m2/repository/org/apache/httpcomponents/httpcore/4.4.5/httpcore-4.4.5.jar:/Users/davidhigginbotham/.m2/repository/com/idtechproducts/device/universal-sdk/1.00.126/universal-sdk-1.00.126.jar:/Users/davidhigginbotham/.m2/repository/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar:/Users/davidhigginbotham/.m2/repository/xerces/xmlParserAPIs/2.6.2/xmlParserAPIs-2.6.2.jar:/Users/davidhigginbotham/.m2/repository/com/google/android/android/2.1_r1/android-2.1_r1.jar:/Users/davidhigginbotham/.m2/repository/junit/junit/4.12/junit-4.12.jar:/Users/davidhigginbotham/.m2/repository/com/android/support/appcompat-v7/22.2.1/appcompat-v7-22.2.1.jar:/Users/davidhigginbotham/.m2/repository/xpp3/xpp3/1.1.4c/xpp3-1.1.4c.jar'
+-encoding
+'UTF-8'
+-overview
+'/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/javadoc/overview.html'
+-public
+-sourcepath
+'/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/java/com/clearent/idtech/android:/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/java/com/clearent/idtech/android/domain:/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/java/com/clearent/idtech/android/family:/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/java/com/clearent/idtech/android/family/reader:/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/java/com/clearent/idtech/android/token/manual:/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/src/main/javadoc'
+-author
+-bottom
+'Copyright &#169; 2020. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'clearent-idtech-android 2.0.20200121113936 API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' '/Users/davidhigginbotham/IdeaProjects/clearent-idtech-android/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'clearent-idtech-android 2.0.20200121113936 API'
