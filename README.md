@@ -7,7 +7,7 @@
 
 The sdk contains everything needed to add android support to your app for interaction with an IDTech card reader that processes payments using Clearent's payment processing system. The Clearent solution wraps IDTech's solution and handles the processing of the credit card data for you. Instead of handling the credit card data, a transaction token will be sent back to you via the public listener, allowing you to present this token back to Clearent when running a payment transaction (using the /rest/v2/mobile/transactions/sale endpoint).
 
-In the libs folder is a new version of the jar, clearent-idtech-android-126-1.0.0-beta.jar (works with IDTech's jar Universal_SDK_1.00.126.jar). This README has been updated to reflect the latest changes.
+In the libs folder is a new version of the jar, clearent-idtech-android-126-1.0.0.jar (works with IDTech's jar Universal_SDK_1.00.126.jar). This README has been updated to reflect the latest changes.
 
 :warning: This release has only passed contactless testing on VP3300 bluetooth encrypted and unencrypted readers using idtech firmware version .151. We are still testing the audio jack readers to confirm IDTech's firmware version works with this release for contactless.
 If you plan on upgrading to use with the audio jack readers you should keep contactless disabled. If you want to upgrade to this release using encrypted audio jack readers using firmware version .064 you can do so as long as contactless is disabled.

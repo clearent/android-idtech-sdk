@@ -19,7 +19,7 @@ clearent-idtech-android-109-1.0.24.jar - http resources were not being cleaned u
 
 clearent-idtech-android-116-1.0.0.jar - Added methods for registerListen and device_startTransaction allowing you to pass in the number of retries and the length of time to wait before retrying the connectivity to bluetooth reader. The no arg registerListen and the current device_startTransaction have a default retry ability of up to 4 times, waiting 500 milliseconds between attempts, Also upgraded to IDTech's latest solution, Universal_SDK_1.00.116.jar. Updated the demo in the scanupgrade branch (haven't merged to master just yet).
 
-clearent-idtech-android-126-1.0.0-beta.jar
+clearent-idtech-android-126-1.0.0.jar
 
 :warning: This release has only passed contactless testing on VP3300 bluetooth encrypted and unencrypted readers using idtech firmware version .151. We are still testing the audio jack readers to confirm IDTech's firmware version works with this release for contactless.
 If you plan on upgrading to use with the audio jack readers you should keep contactless disabled.
