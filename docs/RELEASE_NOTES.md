@@ -2,6 +2,39 @@
 
 # Release Notes
 
+# NEWEST
+
+clearent-idtech-android-137-2.0.0-beta.jar - Use with idtech jar Universal_SDK_1.00.137_Test3.jar (release pending). In this
+release we've added a new method that allows you to start a transaction and pass to it how you would like to connect to the idtech reader. This means you do not have to handle bluetooth connectivity. It will also allow you to toggle between reader interface modes ("3 in 1" mode, which will enable contactless, and "2 in 1 " mode which will only enable insert/icc and swipe).
+
+```java
+ClearentResponse startTransaction(PaymentRequest paymentRequest, Connection connection);
+
+```
+To connect to bluetooth, create a Bluetooth object. Here's an example from our demo
+
+```java
+private Bluetooth getBluetooth(ReaderInterfaceMode readerInterfaceMode) {
+
+    Bluetooth bluetooth;
+    String bluetoothFriendlyName = settingsViewModel.getBluetoothFriendlyName().getValue();
+    String last5 = settingsViewModel.getLast5OfBluetoothReader().getValue();
+
+    if (bluetoothFriendlyName != null && !"".equals(bluetoothFriendlyName)) {
+        bluetooth = new Bluetooth(readerInterfaceMode, BluetoothSearchType.FRIENDLY_NAME, bluetoothFriendlyName);
+    } else if (last5 != null && !"".equals(last5)) {
+        bluetooth = new Bluetooth(readerInterfaceMode, BluetoothSearchType.LAST_5_OF_DEVICE_SERIAL_NUMBER, last5);
+    } else {
+        bluetooth = new Bluetooth(readerInterfaceMode, BluetoothSearchType.CONNECT_TO_FIRST_FOUND);
+    }
+    return bluetooth;
+
+}
+```
+
+# PREVIOUS RELEASES
+
+
 clearent-idtech-android-2.0.20190122192757.jar (deprecated). Support has been added so you can manually enter a card and have it stored using our 'mobile jwt' solution. (Idtech recommended moving to 105)
 
 clearent-idtech-android-105-1.0.5.jar - upgraded to support the IDTech Universal SDK 105 jar (in libs). Caches a flag when the reader is configured speeding up future connections. Added retry logic during communication issues with the reader to get the configuration to apply more consistently.
