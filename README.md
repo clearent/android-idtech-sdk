@@ -9,9 +9,6 @@ The sdk contains everything needed to add android support to your app for intera
 
 In the libs folder is a new version of the jar, clearent-idtech-android-137-2.0.0-beta.jar (works with IDTech's jar Universal_SDK_1.00.137_Test3.jar).
 
-:warning: This release has only passed contactless testing on VP3300 bluetooth encrypted and unencrypted readers using idtech firmware version .179. We are still testing the audio jack readers to confirm IDTech's firmware version works with this release for contactless. We are also in the middle of regression testing against firmware releases .151 and .090.
-
-If you plan on upgrading to use with the audio jack readers you should keep contactless disabled. If you want to upgrade to this release using encrypted audio jack readers using firmware version .064 you can do so as long as contactless is disabled.
 
 ## Release Notes
 
@@ -28,20 +25,29 @@ If you plan on upgrading to use with the audio jack readers you should keep cont
 
 5 - Use the DeviceFactory to get an object based on the device you have. This object will be used by your app to interact with the reader.
 
-6 - If you are using an audio jack reader, call the device_configurePeripheralAndConnect() method.
+6 - Configure a connection object. A Bluetooth object represents a bluetooth connection. An AudioJack object represents an audio jack connection.
 
-  This method will call the Clearent's system to get a audio jack peripheral configuration based on the android device you are using. There are peripheral specifications, such as the baud rate on the audio jack, that can be different per device. If Clearent does not have a configuration to use there is an xml file you can provide as a fallback based on an IDTech format. Supply the file location for this via the ApplicationContext.
-  A xml file has been provided in the sdk (xml folder).
+7 - To initiate the processing of a card call the startTransaction method and pass your connection object.
 
-7 - Call the registerListen method (when using a bluetooth device only register after you've scanned and found the device). The registerListen handles the connection with the reader. A successful connection calls back to the isReady method. Do not enable usage of reader until the isReady() method of the public listener is called.
-
-8 - To initiate the processing of a card call device_startTransaction.
-
-The handleConfigurationErrors method will alert you of any issues related to configuration. The handleCardProcessingResponse method can be used to monitor issues during the processing of the card. The rest of the communication can be monitored with the lcdDisplay methods of the public listener. One lcdDisplay method gets all general messages and the other is used for user interaction that can be sent back via a callback. This second one is not used for VP3300 readers Clearent supports because they have been configured to not send back customer prompts.
+```java
+ClearentResponse startTransaction (PaymentRequest paymentRequest, Connection connection);
+```
 
 Successful transaction tokens of card reads will be returned via the successfulTransactionToken method of the public listener.
 
-When configuration is being applied, there will be a delay in the initial connection of the reader since the configuration will need to be applied to the reader's flash memory. This is a one time configuration the first time your app starts and connects to the reader. When this succeeds a flag is place in local storage to stop any further configurations.
+8 - Monitor for feedback using the feedback callback on the public listener. Communicate back all user actions to the user.
+
+```java
+void feedback (ClearentFeedback clearentFeedback);
+```
+
+## Design recommendations
+
+There is a device_cancelTransaction method that cancels the transaction so you can start over at any time in the process. It's recommended
+you empower your user by providing this option alongside starting a transaction.
+
+For bluetooth devices, it's recommended you give your users the ability to disconnect from the device when they want to. There is a disconnectBluetooth method for this purpose. Users can have multiple devices and in some cases multiple readers at their disposal and
+giving them this ability can cut down on support calls as well as aid support when trying to troubleshoot issues.
 
 JavaDocs are supplied in the docs folder.
 
@@ -75,12 +81,3 @@ manualCardTokenizer = new ManualCardTokenizerImpl(this);
 4 - Call the createTransactionToken method with your card object.
 
  manualCardTokenizer.createTransactionToken(manualEntry);
-
-
- ## Disabling emv configuration when using a preconfigured reader
-
-By default Clearent will apply an emv configuration to your device. This configuration was determined by going through a certification process. The configuration can also be applied before the device is shipped to you. When this happens, you should disable the configuration feature. To do this, return true when you implement the ApplicationContext interface method disableAutoConfiguration().
-
-## User experience when emv configuration is being applied.
-
-When the Clearent framework applies the emv configuration to the reader it is using IDTech's framework for communication. This process can take up to a couple of minutes and also has its own unique failures that need to be managed (with possible retry logic). The Clearent framework has some retry capability to account for these failures (example bluetooth connectivity) but only attempts a limited number of times. It's up to the client app to account for this initial user experience. Once the reader has been configured the device serial number is cached so the framework knows not to configure again. If you want to avoid hitting this one time delay during a transaction flow you can advise the merchant to perform an initial connection with the reader, maybe at the time they pull the reader out of the box or some time prior to running transactions.
