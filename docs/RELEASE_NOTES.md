@@ -2,6 +2,8 @@
 
 # Release Notes
 
+clearent-idtech-android-137-2.0.1-beta.jar - fixed an issue with fallback swipes.
+
 clearent-idtech-android-137-2.0.0-beta.jar - Use with idtech jar Universal_SDK_1.00.137_Test3.jar (release pending). In this
 release we've added a new method that allows you to start a transaction and pass to it how you would like to connect to the idtech reader. This means you do not have to handle bluetooth connectivity. It will also allow you to toggle between reader interface modes ("3 in 1" mode, which will enable contactless, and "2 in 1 " mode which will only enable insert/icc and swipe).
 

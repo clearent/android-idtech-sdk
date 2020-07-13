@@ -7,7 +7,7 @@
 
 The sdk contains everything needed to add android support to your app for interaction with an IDTech card reader that processes payments using Clearent's payment processing system. The Clearent solution wraps IDTech's solution and handles the processing of the credit card data for you. Instead of handling the credit card data, a transaction token will be sent back to you via the public listener, allowing you to present this token back to Clearent when running a payment transaction (using the /rest/v2/mobile/transactions/sale endpoint).
 
-In the libs folder is a new version of the jar, clearent-idtech-android-137-2.0.0-beta.jar (works with IDTech's jar Universal_SDK_1.00.137_Test3.jar).
+In the libs folder is a new version of the jar, clearent-idtech-android-137-2.0.1-beta.jar (works with IDTech's jar Universal_SDK_1.00.137_Test3.jar).
 
 
 ## Release Notes
