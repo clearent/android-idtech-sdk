@@ -7,7 +7,7 @@
 
 The sdk contains everything needed to add android support to your app for interaction with an IDTech card reader that processes payments using Clearent's payment processing system. The Clearent solution wraps IDTech's solution and handles the processing of the credit card data for you. Instead of handling the credit card data, a transaction token will be sent back to you via the public listener, allowing you to present this token back to Clearent when running a payment transaction (using the /rest/v2/mobile/transactions/sale endpoint).
 
-In the libs folder is a new version of the jar, clearent-idtech-android-137-2.0.1-beta.jar (works with IDTech's jar Universal_SDK_1.00.137_Test3.jar).
+In the libs folder is a new version of the jar, clearent-idtech-android-139-2.0.3.jar (works with IDTech's jar Universal_SDK_1.00.139.jar).
 
 
 ## Release Notes
@@ -21,7 +21,7 @@ In the libs folder is a new version of the jar, clearent-idtech-android-137-2.0.
 
 3 - Implement the PublicOnReceiverListener interface. This is the object used to communicate back to your app.
 
-4 - Implement the ApplicationContext interface for 2 in 1 mode (DIP/SWIPE), ApplicationContext3In1 for 3 in 1 mode (CONTACTLESS/DIP/SWIPE).
+4 - Implement the ApplicationContext3In1 interface.
 
 5 - Use the DeviceFactory to get an object based on the device you have. This object will be used by your app to interact with the reader.
 
@@ -56,28 +56,4 @@ JavaDocs are supplied in the docs folder.
 
 ## Demo
 
-The demo has an example:
-
-1 - Create an object that implements the ManualEntry interface.
-
-2 - Implement interface HasManualTokenizingSupport. The following methods are now in place:
-
-//Returns a successful transaction token
-
-void successfulTransactionToken(TransactionToken transactionToken);
-
-//Handle errors related to the card.
-
-void handleCardProcessingResponse(CardProcessingResponse cardProcessingResponse);
-
-//Handle errors related to the manual entry request.
-
-void handleManualEntryError(String message);
-
-3 - Create an ManualCardTokenizer object.
-
-manualCardTokenizer = new ManualCardTokenizerImpl(this);
-
-4 - Call the createTransactionToken method with your card object.
-
- manualCardTokenizer.createTransactionToken(manualEntry);
+The demo shows how to handle the transaction token returned from the framework when using the reader or when manually key entering a card.

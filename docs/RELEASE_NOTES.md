@@ -2,6 +2,8 @@
 
 # Release Notes
 
+clearent-idtech-android-139-2.0.3.jar - Use Idtech jar Universal_SDK_139_1.00.139.jar. Idtech fixed an issue with the device_disconnectBLE() method to clean up some disconnect state so when you call this method the reader you previously connected to does not automatically reconnect. Fixed an issue with the firmware version not being retrieved consistently.
+
 clearent-idtech-android-137-2.0.1-beta.jar - fixed an issue with fallback swipes.
 
 clearent-idtech-android-137-2.0.0-beta.jar - Use with idtech jar Universal_SDK_1.00.137_Test3.jar (release pending). In this
